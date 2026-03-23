@@ -3,7 +3,12 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 
 import { auth } from "../lib/auth.js";
-import { ErrorSchema, UpsertUserTrainDataBodySchema, UpsertUserTrainDataSchema, UserTrainDataSchema } from "../schemas/index.js";
+import {
+  ErrorSchema,
+  UpsertUserTrainDataBodySchema,
+  UpsertUserTrainDataSchema,
+  UserTrainDataSchema,
+} from "../schemas/index.js";
 import { GetUserTrainData } from "../usecases/get-user-train-data.js";
 import { UpsertUserTrainData } from "../usecases/upsert-user-train-data.js";
 

@@ -26,7 +26,6 @@ import { GetWorkoutPlan } from "../usecases/get-workout-plan.js";
 import { ListWorkoutPlans } from "../usecases/list-workout-plans.js";
 import { StartWorkoutSession } from "../usecases/start-workout-session.js";
 import { UpdateWorkoutSession } from "../usecases/update-workout-session.js";
-
 export const workoutPlanRoutes = async (app: FastifyInstance) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",

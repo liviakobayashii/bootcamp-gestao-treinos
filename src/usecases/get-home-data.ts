@@ -66,7 +66,7 @@ export class GetHomeData {
 
     const todayWeekDay = WEEKDAY_MAP[currentDate.day()];
     const todayWorkoutDay = workoutPlan.workoutDays.find(
-      (day) => day.weekDay === todayWeekDay,
+      (day) => day.weekDay === todayWeekDay
     );
 
     const weekStart = currentDate.day(0).startOf("day");
@@ -94,12 +94,12 @@ export class GetHomeData {
       const dateKey = day.format("YYYY-MM-DD");
 
       const daySessions = weekSessions.filter(
-        (s) => dayjs.utc(s.startedAt).format("YYYY-MM-DD") === dateKey,
+        (s) => dayjs.utc(s.startedAt).format("YYYY-MM-DD") === dateKey
       );
 
       const workoutDayStarted = daySessions.length > 0;
       const workoutDayCompleted = daySessions.some(
-        (s) => s.completedAt !== null,
+        (s) => s.completedAt !== null
       );
 
       consistencyByDay[dateKey] = { workoutDayCompleted, workoutDayStarted };
@@ -108,21 +108,24 @@ export class GetHomeData {
     const workoutStreak = await this.calculateStreak(
       workoutPlan.id,
       workoutPlan.workoutDays,
-      currentDate,
+      currentDate
     );
 
     return {
       activeWorkoutPlanId: workoutPlan.id,
-      todayWorkoutDay: todayWorkoutDay ? {
-        workoutPlanId: workoutPlan.id,
-        id: todayWorkoutDay.id,
-        name: todayWorkoutDay.name,
-        isRest: todayWorkoutDay.isRest,
-        weekDay: todayWorkoutDay.weekDay,
-        estimatedDurationInSeconds: todayWorkoutDay.estimatedDurationInSeconds,
-        coverImageUrl: todayWorkoutDay.coverImageUrl ?? undefined,
-        exercisesCount: todayWorkoutDay.exercises.length,
-      } : undefined,
+      todayWorkoutDay: todayWorkoutDay
+        ? {
+            workoutPlanId: workoutPlan.id,
+            id: todayWorkoutDay.id,
+            name: todayWorkoutDay.name,
+            isRest: todayWorkoutDay.isRest,
+            weekDay: todayWorkoutDay.weekDay,
+            estimatedDurationInSeconds:
+              todayWorkoutDay.estimatedDurationInSeconds,
+            coverImageUrl: todayWorkoutDay.coverImageUrl ?? undefined,
+            exercisesCount: todayWorkoutDay.exercises.length,
+          }
+        : undefined,
       workoutStreak,
       consistencyByDay,
     };
@@ -135,11 +138,11 @@ export class GetHomeData {
       isRest: boolean;
       sessions: Array<{ startedAt: Date; completedAt: Date | null }>;
     }>,
-    currentDate: dayjs.Dayjs,
+    currentDate: dayjs.Dayjs
   ): Promise<number> {
     const planWeekDays = new Set(workoutDays.map((d) => d.weekDay));
     const restWeekDays = new Set(
-      workoutDays.filter((d) => d.isRest).map((d) => d.weekDay),
+      workoutDays.filter((d) => d.isRest).map((d) => d.weekDay)
     );
 
     const allSessions = await prisma.workoutSession.findMany({
@@ -151,7 +154,7 @@ export class GetHomeData {
     });
 
     const completedDates = new Set(
-      allSessions.map((s) => dayjs.utc(s.startedAt).format("YYYY-MM-DD")),
+      allSessions.map((s) => dayjs.utc(s.startedAt).format("YYYY-MM-DD"))
     );
 
     let streak = 0;
