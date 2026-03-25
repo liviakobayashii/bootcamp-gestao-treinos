@@ -6,4 +6,4 @@ node_modules
 docs/
 
 #Build
-./dist
+dist/
